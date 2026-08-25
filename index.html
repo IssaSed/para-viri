@@ -7,22 +7,133 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
- 
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
- 
+
         body {
-            background: linear-gradient(180deg, #0b1120 0%, #111827 50%, #1e293b 100%);
+            background: linear-gradient(180deg, #09131d 0%, #0f172a 40%, #1e293b 100%);
             font-family: 'Poppins', sans-serif;
             color: #f1f5f9;
             overflow-x: hidden;
             position: relative;
         }
- 
+
+/* --- ENCABEZADO MINECRAFT NIGHT CON MOVIMIENTO --- */
+        .mc-header-container {
+            position: relative;
+            width: 100%;
+            min-height: 480px;
+            background: transparent;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 50px;
+        }
+
+        /* Animación para que luna y nubes vayan descendiendo, como los lirios */
+        @keyframes floatDown {
+            0% {
+                transform: translateY(-60px);
+            }
+            50% {
+                transform: translateY(70px);
+            }
+            100% {
+                transform: translateY(-60px);
+            }
+        }
+
+        .mc-sky-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 480px;
+            pointer-events: none;
+            z-index: 2;
+            animation: floatDown 22s ease-in-out infinite;
+        }
+
+        /* Luna cuadrada con super brillo azul/blanco */
+        .mc-moon {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            background-color: #ffffff;
+            box-shadow: 
+                0 0 20px #ffffff,
+                0 0 45px rgba(147, 197, 253, 0.9),
+                0 0 80px rgba(59, 130, 246, 0.7);
+        }
+
+        .mc-moon::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 18px;
+            height: 18px;
+            background: rgba(203, 213, 225, 0.35);
+            box-shadow: -12px 14px 0 rgba(203, 213, 225, 0.25);
+        }
+
+        /* Nubes pixeladas brillantes */
+        .mc-cloud {
+            position: absolute;
+            background: rgba(248, 250, 252, 0.85);
+            box-shadow: 
+                0 0 15px #ffffff,
+                0 0 30px rgba(147, 197, 253, 0.8),
+                0 0 50px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Nube 1 (Izquierda) */
+        .cloud-1 {
+            top: 70px;
+            left: 15%;
+            width: 140px;
+            height: 35px;
+        }
+        .cloud-1::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 25px;
+            width: 65px;
+            height: 20px;
+            background: rgba(248, 250, 252, 0.85);
+            box-shadow: 0 0 15px rgba(147, 197, 253, 0.8);
+        }
+
+        /* Nube 2 (Derecha) */
+        .cloud-2 {
+            top: 110px;
+            right: 15%;
+            width: 160px;
+            height: 40px;
+        }
+        .cloud-2::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            right: 30px;
+            width: 75px;
+            height: 25px;
+            background: rgba(248, 250, 252, 0.85);
+            box-shadow: 0 0 15px rgba(147, 197, 253, 0.8);
+        }
+
+        /* --- COMPONENTES ORIGINALES --- */
         .music-player {
             position: fixed;
             top: 20px;
@@ -38,7 +149,7 @@
             align-items: center;
             gap: 10px;
         }
- 
+
         .music-player button {
             background: #3b82f6;
             border: none;
@@ -54,19 +165,19 @@
             transition: transform 0.2s ease, background-color 0.2s ease;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         }
- 
+
         .music-player button:hover {
             transform: scale(1.1);
             background: #60a5fa;
         }
- 
+
         .music-info {
             font-size: 0.85rem;
             color: #93c5fd;
             font-weight: 500;
             letter-spacing: 0.5px;
         }
- 
+
         .petals-container {
             position: fixed;
             top: 0;
@@ -74,36 +185,36 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 3;
             overflow: hidden;
         }
- 
+
         .petal {
             position: absolute;
             background: radial-gradient(circle, #ffffff 0%, #e2e8f0 100%);
             border-radius: 15px 0 15px 0;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
             opacity: 0.8;
-            top: -10%;
+            top: -25vh;
             animation: fall linear infinite;
         }
- 
+
         @keyframes fall {
             0% {
-                transform: translateY(-50px) rotate(0deg) translateX(0);
+                transform: translateY(0) rotate(0deg) translateX(0);
                 opacity: 0;
             }
             10% { opacity: 0.8; }
             50% {
-                transform: translateY(50vh) rotate(180deg) translateX(50px);
+                transform: translateY(55vh) rotate(180deg) translateX(50px);
             }
             90% { opacity: 0.8; }
             100% {
-                transform: translateY(110vh) rotate(360deg) translateX(-50px);
+                transform: translateY(115vh) rotate(360deg) translateX(-50px);
                 opacity: 0;
             }
         }
- 
+
         .spider-lily-band {
             position: fixed;
             bottom: 0;
@@ -116,58 +227,58 @@
             z-index: 1;
             filter: drop-shadow(0 0 22px rgba(147, 197, 253, 0.55));
         }
- 
+
         .spider-lily-band svg {
             width: 100%;
             height: 100%;
             display: block;
         }
- 
+
         .header-central {
             text-align: center;
-            padding: 60px 20px 20px 20px;
+            padding: 20px;
             position: relative;
-            z-index: 2;
+            z-index: 5;
         }
- 
+
         .header-central h1 {
             font-family: 'Cinzel', serif;
             font-size: 3.5rem;
             color: #ffffff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(147, 197, 253, 0.4);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(147, 197, 253, 0.6);
             letter-spacing: 2px;
             margin-top: 10px;
         }
- 
+
         .scroll-indicator-card {
             max-width: 400px;
-            margin: 15px auto 50px auto;
-            background: rgba(15, 23, 42, 0.6);
+            margin: 20px auto 0 auto;
+            background: rgba(15, 23, 42, 0.75);
             border: 1.5px solid #93c5fd;
             border-radius: 50px;
             padding: 12px 25px;
             text-align: center;
-            box-shadow: 0 0 20px rgba(147, 197, 253, 0.15);
+            box-shadow: 0 0 20px rgba(147, 197, 253, 0.2);
             animation: bounce 2s infinite;
             position: relative;
-            z-index: 2;
-            backdrop-filter: blur(5px);
+            z-index: 5;
+            backdrop-filter: blur(8px);
         }
- 
+
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
             40% { transform: translateY(-8px); }
             60% { transform: translateY(-4px); }
         }
- 
+
         .timeline-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px 20px 120px 20px;
+            padding: 40px 20px 120px 20px;
             position: relative;
             z-index: 2;
         }
- 
+
         .timeline-container::before {
             content: '';
             position: absolute;
@@ -179,7 +290,7 @@
             transform: translateX(-50%);
             box-shadow: 0 0 15px rgba(147, 197, 253, 0.5);
         }
- 
+
         .timeline-item {
             display: flex;
             justify-content: flex-end;
@@ -188,7 +299,7 @@
             margin-bottom: 70px;
             width: 50%;
         }
- 
+
         .timeline-item:nth-child(even) {
             align-self: flex-end;
             justify-content: flex-start;
@@ -196,7 +307,7 @@
             padding-right: 0;
             margin-left: 50%;
         }
- 
+
         .timeline-dot {
             position: absolute;
             top: 30px;
@@ -209,12 +320,12 @@
             box-shadow: 0 0 15px #93c5fd;
             z-index: 2;
         }
- 
+
         .timeline-item:nth-child(even) .timeline-dot {
             left: -12px;
             right: auto;
         }
- 
+
         .card {
             background: rgba(15, 23, 42, 0.7);
             padding: 40px;
@@ -226,13 +337,13 @@
             position: relative;
             transition: transform 0.4s ease, border-color 0.4s ease;
         }
- 
+
         .card:hover {
             transform: translateY(-5px);
             border-color: #93c5fd;
             box-shadow: 0 15px 40px rgba(147, 197, 253, 0.15);
         }
- 
+
         .cursiva {
             font-family: 'Dancing Script', cursive;
             font-size: 2.2rem;
@@ -243,14 +354,14 @@
             text-align: center;
             text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
- 
+
         p {
             line-height: 1.8;
             font-size: 1.1rem;
             color: #cbd5e1;
             text-align: justify;
         }
- 
+
         .badge-anime {
             display: block;
             width: max-content;
@@ -264,7 +375,7 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
- 
+
         .btn-container-timeline {
             position: relative;
             width: 100%;
@@ -274,14 +385,14 @@
             margin-top: 50px;
             z-index: 5;
         }
- 
+
         .btn-container-timeline .timeline-dot {
             top: -35px;
             left: 50%;
             right: auto;
             transform: translateX(-50%);
         }
- 
+
         .btn-whatsapp {
             display: flex;
             align-items: center;
@@ -302,13 +413,13 @@
             position: relative;
             z-index: 10;
         }
- 
+
         .btn-whatsapp:hover {
             transform: scale(1.05);
             box-shadow: 0 12px 25px rgba(147, 197, 253, 0.4);
             background: linear-gradient(45deg, #ffffff, #bfdbfe);
         }
- 
+
         @media (max-width: 850px) {
             .music-player {
                 top: 10px;
@@ -326,7 +437,7 @@
             .timeline-dot { left: 9px !important; right: auto !important; }
             .card { padding: 30px 20px; }
             .spider-lily-band { height: 20vh; min-height: 160px; opacity: 0.6; }
- 
+
             .btn-container-timeline .timeline-dot {
                 left: 9px !important;
                 transform: none;
@@ -339,17 +450,35 @@
     </style>
 </head>
 <body>
- 
+
     <!-- REPRODUCTOR -->
     <div class="music-player">
         <button id="playBtn" onclick="togglePlay()">▶</button>
         <span class="music-info">Soñé 🎵</span>
-        <!-- El archivo sone.mp3 debe estar en la misma carpeta que este index.html -->
         <audio id="bgMusic" loop preload="auto" src="sone.mp3"></audio>
     </div>
- 
+
     <div class="petals-container" id="petals-container"></div>
- 
+
+<!-- ENCABEZADO MINECRAFT NIGHT -->
+    <div class="mc-header-container">
+        <!-- Contenedor animado de Luna y Nubes Noche -->
+        <div class="mc-sky-wrapper">
+            <div class="mc-moon"></div>
+            <div class="mc-cloud cloud-1"></div>
+            <div class="mc-cloud cloud-2"></div>
+        </div>
+
+        <div class="header-central">
+            <span class="badge-anime">💮 Léelo por favor 💮</span>
+            <h1>Holaa Viri</h1>
+        </div>
+
+        <div class="scroll-indicator-card">
+            <span class="cursiva" style="margin:0; font-size: 1.6rem; color: #93c5fd;">Desliza hacia abajo ✨</span>
+        </div>
+    </div>
+
     <!-- FRANJA DE LIRIOS -->
     <div class="spider-lily-band">
         <svg viewBox="0 0 1650 460" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
@@ -369,7 +498,7 @@
                         <stop offset="0%" stop-color="#ffffff"/>
                         <stop offset="100%" stop-color="#93c5fd" stop-opacity="0"/>
                     </radialGradient>
- 
+
                     <g fill="url(#lp1)" stroke="#bfdbfe" stroke-width="0.7" opacity="0.85">
                         <path d="M150,190 C118,182 74,168 42,182 C60,158 108,158 150,190 Z"/>
                         <path d="M150,190 C182,182 226,168 258,182 C240,158 192,158 150,190 Z"/>
@@ -435,7 +564,7 @@
                     <stop offset="100%" stop-color="#60a5fa"/>
                 </linearGradient>
             </defs>
- 
+
             <path d="M60,460 Q56,412 60,363" stroke="url(#stemGradBand)" stroke-width="4.1" opacity="0.60"/>
             <path d="M170,460 Q166,403 170,346" stroke="url(#stemGradBand)" stroke-width="5.3" opacity="0.65"/>
             <path d="M300,460 Q296,413 300,366" stroke="url(#stemGradBand)" stroke-width="3.9" opacity="0.60"/>
@@ -448,7 +577,7 @@
             <path d="M1320,460 Q1316,392 1320,323" stroke="url(#stemGradBand)" stroke-width="6.9" opacity="0.95"/>
             <path d="M1470,460 Q1466,407 1470,355" stroke="url(#stemGradBand)" stroke-width="4.7" opacity="0.70"/>
             <path d="M1580,460 Q1576,400 1580,340" stroke="url(#stemGradBand)" stroke-width="5.7" opacity="0.75"/>
- 
+
             <use href="#lilyFlower" x="-18" y="265" width="155" height="155" opacity="0.5"/>
             <use href="#lilyFlower" x="69" y="218" width="202" height="202" opacity="0.55"/>
             <use href="#lilyFlower" x="226" y="273" width="147" height="147" opacity="0.5"/>
@@ -463,20 +592,10 @@
             <use href="#lilyFlower" x="1472" y="203" width="217" height="217" opacity="0.65"/>
         </svg>
     </div>
- 
-    <!-- ENCABEZADO -->
-    <div class="header-central">
-        <span class="badge-anime">💮 Léelo por favor 💮</span>
-        <h1>Holaa Viri</h1>
-    </div>
- 
-    <div class="scroll-indicator-card">
-        <span class="cursiva" style="margin:0; font-size: 1.6rem; color: #93c5fd;">Desliza hacia abajo ✨</span>
-    </div>
- 
+
     <!-- LÍNEA DE TIEMPO -->
     <div class="timeline-container">
- 
+
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="card">
@@ -484,7 +603,7 @@
                 <p>Desde hace tiempo quiero decirte algo.<br><br>La verdad, tengo tiempo queriendo volver a hablar contigo, y ese día que salimos estaba muy emocionado. La he pasado muy bien platicando contigo.</p>
             </div>
         </div>
- 
+
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="card">
@@ -493,7 +612,7 @@
                 <span class="cursiva">Quiero seguir saliendo contigo.</span>
             </div>
         </div>
- 
+
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="card">
@@ -501,7 +620,7 @@
                 <p>No te lo digo para hacerte sentir presionada ni para que tengas que responderme algo en este momento.<br><br>Simplemente creo que es mejor que sepas cuáles son mis intenciones contigo, y que no pienses que lo hago solo por casualidad.</p>
             </div>
         </div>
- 
+
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="card">
@@ -509,7 +628,7 @@
                 <p>Me gustaría seguir saliendo contigo, conocerte mucho más y ver qué puede surgir entre nosotros.<br><br>Sé que vienes de una relación reciente, y entiendo perfectamente que quizá necesites tiempo o que tengas ciertas dudas. Respeto eso.</p>
             </div>
         </div>
- 
+
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="card">
@@ -517,7 +636,7 @@
                 <p>Si tú también estás dispuesta, me gustaría intentarlo poco a poco.<br><br>Sin apresurarnos ni ponerle presión a nada, simplemente conocernos desde otra perspectiva y ver hasta dónde puede llegar esto y cómo nos sentimos.</p>
             </div>
         </div>
- 
+
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="card">
@@ -525,7 +644,7 @@
                 <p>No espero que me des una respuesta ahorita, ni quiero que sientas que tienes que hacerlo. Solo quería ser sincero contigo, porque creo que mereces saber lo que siento y lo que me gustaría intentar contigo. ❤️</p>
             </div>
         </div>
- 
+
         <!-- BOTÓN CON SU PROPIO PUNTO CENTRADO EN LA LÍNEA -->
         <div class="btn-container-timeline">
             <div class="timeline-dot"></div>
@@ -533,16 +652,16 @@
                 <span>Ir al chat</span> 💬
             </a>
         </div>
- 
+
     </div>
- 
+
     <script>
         function togglePlay() {
             const music = document.getElementById('bgMusic');
             const btn = document.getElementById('playBtn');
             if (music.paused) {
                 music.play().catch(() => {
-                    alert('No se pudo cargar la música. Revisa el link del archivo de audio (Google Drive puede estar bloqueando la reproducción directa).');
+                    alert('No se pudo cargar la música. Revisa que sone.mp3 esté cargado en GitHub.');
                 });
                 btn.textContent = '❚❚';
             } else {
@@ -550,28 +669,28 @@
                 btn.textContent = '▶';
             }
         }
- 
+
+        // Generador de pétalos
         const petalContainer = document.getElementById('petals-container');
         const numberOfPetals = 60;
- 
+
         for (let i = 0; i < numberOfPetals; i++) {
             const petal = document.createElement('div');
             petal.classList.add('petal');
- 
+
             const size = Math.random() * 12 + 10;
             const leftPos = Math.random() * 100;
             const animDuration = Math.random() * 10 + 8;
             const animDelay = Math.random() * 10;
- 
+
             petal.style.width = `${size}px`;
             petal.style.height = `${size}px`;
             petal.style.left = `${leftPos}%`;
             petal.style.animationDuration = `${animDuration}s`;
             petal.style.animationDelay = `${animDelay}s`;
- 
+
             petalContainer.appendChild(petal);
         }
     </script>
 </body>
 </html>
- 
