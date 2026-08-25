@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Viri 💮</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+ 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ 
+        body {
+            background: linear-gradient(180deg, #0b1120 0%, #111827 50%, #1e293b 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            position: relative;
+        }
+ 
+        .music-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(147, 197, 253, 0.4);
+            padding: 10px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+ 
+        .music-player button {
+            background: #3b82f6;
+            border: none;
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+ 
+        .music-player button:hover {
+            transform: scale(1.1);
+            background: #60a5fa;
+        }
+ 
+        .music-info {
+            font-size: 0.85rem;
+            color: #93c5fd;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+ 
+        .petals-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+ 
+        .petal {
+            position: absolute;
+            background: radial-gradient(circle, #ffffff 0%, #e2e8f0 100%);
+            border-radius: 15px 0 15px 0;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            opacity: 0.8;
+            top: -10%;
+            animation: fall linear infinite;
+        }
+ 
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            50% {
+                transform: translateY(50vh) rotate(180deg) translateX(50px);
+            }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(110vh) rotate(360deg) translateX(-50px);
+                opacity: 0;
+            }
+        }
+ 
+        .spider-lily-band {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            height: 36vh;
+            min-height: 260px;
+            max-height: 420px;
+            pointer-events: none;
+            z-index: 1;
+            filter: drop-shadow(0 0 22px rgba(147, 197, 253, 0.55));
+        }
+ 
+        .spider-lily-band svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+ 
+        .header-central {
+            text-align: center;
+            padding: 60px 20px 20px 20px;
+            position: relative;
+            z-index: 2;
+        }
+ 
+        .header-central h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(147, 197, 253, 0.4);
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+ 
+        .scroll-indicator-card {
+            max-width: 400px;
+            margin: 15px auto 50px auto;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1.5px solid #93c5fd;
+            border-radius: 50px;
+            padding: 12px 25px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(147, 197, 253, 0.15);
+            animation: bounce 2s infinite;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+        }
+ 
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+ 
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 120px 20px;
+            position: relative;
+            z-index: 2;
+        }
+ 
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: linear-gradient(180deg, #ffffff, #93c5fd, #3b82f6, transparent);
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px rgba(147, 197, 253, 0.5);
+        }
+ 
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50px;
+            position: relative;
+            margin-bottom: 70px;
+            width: 50%;
+        }
+ 
+        .timeline-item:nth-child(even) {
+            align-self: flex-end;
+            justify-content: flex-start;
+            padding-left: 50px;
+            padding-right: 0;
+            margin-left: 50%;
+        }
+ 
+        .timeline-dot {
+            position: absolute;
+            top: 30px;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background: #ffffff;
+            border-radius: 50%;
+            border: 4px solid #0f172a;
+            box-shadow: 0 0 15px #93c5fd;
+            z-index: 2;
+        }
+ 
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -12px;
+            right: auto;
+        }
+ 
+        .card {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(147, 197, 253, 0.3);
+            width: 100%;
+            position: relative;
+            transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+ 
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #93c5fd;
+            box-shadow: 0 15px 40px rgba(147, 197, 253, 0.15);
+        }
+ 
+        .cursiva {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: #e0f2fe;
+            display: block;
+            margin: 20px 0;
+            line-height: 1.4;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+ 
+        p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            text-align: justify;
+        }
+ 
+        .badge-anime {
+            display: block;
+            width: max-content;
+            margin: 0 auto 20px auto;
+            background: rgba(147, 197, 253, 0.1);
+            color: #93c5fd;
+            border: 1px solid #93c5fd;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+ 
+        .btn-container-timeline {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+            z-index: 5;
+        }
+ 
+        .btn-container-timeline .timeline-dot {
+            top: -35px;
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%);
+        }
+ 
+        .btn-whatsapp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 280px;
+            text-align: center;
+            background: linear-gradient(45deg, #e2e8f0, #93c5fd);
+            color: #0f172a;
+            padding: 16px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 8px 20px rgba(147, 197, 253, 0.25);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+ 
+        .btn-whatsapp:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 25px rgba(147, 197, 253, 0.4);
+            background: linear-gradient(45deg, #ffffff, #bfdbfe);
+        }
+ 
+        @media (max-width: 850px) {
+            .music-player {
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+            }
+            .header-central h1 { font-size: 2.5rem; }
+            .timeline-container::before { left: 20px; }
+            .timeline-item {
+                width: 100%;
+                padding-left: 50px !important;
+                padding-right: 0 !important;
+                margin-left: 0 !important;
+            }
+            .timeline-dot { left: 9px !important; right: auto !important; }
+            .card { padding: 30px 20px; }
+            .spider-lily-band { height: 20vh; min-height: 160px; opacity: 0.6; }
+ 
+            .btn-container-timeline .timeline-dot {
+                left: 9px !important;
+                transform: none;
+            }
+            .btn-container-timeline {
+                padding-left: 50px;
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+ 
+    <!-- REPRODUCTOR -->
+    <div class="music-player">
+        <button id="playBtn" onclick="togglePlay()">▶</button>
+        <span class="music-info">Soñé 🎵</span>
+        <!-- El archivo sone.mp3 debe estar en la misma carpeta que este index.html -->
+        <audio id="bgMusic" loop preload="auto" src="sone.mp3"></audio>
+    </div>
+ 
+    <div class="petals-container" id="petals-container"></div>
+ 
+    <!-- FRANJA DE LIRIOS -->
+    <div class="spider-lily-band">
+        <svg viewBox="0 0 1650 460" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <symbol id="lilyFlower" viewBox="0 0 300 300">
+                    <linearGradient id="lp1" x1="0%" y1="100%" x2="0%" y2="0%">
+                        <stop offset="0%" stop-color="#1d4ed8"/>
+                        <stop offset="45%" stop-color="#3b82f6"/>
+                        <stop offset="75%" stop-color="#93c5fd"/>
+                        <stop offset="100%" stop-color="#ffffff"/>
+                    </linearGradient>
+                    <linearGradient id="lp2" x1="0%" y1="100%" x2="0%" y2="0%">
+                        <stop offset="0%" stop-color="#60a5fa"/>
+                        <stop offset="100%" stop-color="#ffffff"/>
+                    </linearGradient>
+                    <radialGradient id="lglow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="100%" stop-color="#93c5fd" stop-opacity="0"/>
+                    </radialGradient>
+ 
+                    <g fill="url(#lp1)" stroke="#bfdbfe" stroke-width="0.7" opacity="0.85">
+                        <path d="M150,190 C118,182 74,168 42,182 C60,158 108,158 150,190 Z"/>
+                        <path d="M150,190 C182,182 226,168 258,182 C240,158 192,158 150,190 Z"/>
+                        <path d="M150,190 C108,152 62,116 30,130 C56,112 104,120 150,190 Z"/>
+                        <path d="M150,190 C192,152 238,116 270,130 C244,112 196,120 150,190 Z"/>
+                        <path d="M150,190 C128,140 96,92 78,66 C104,78 132,116 150,190 Z"/>
+                        <path d="M150,190 C172,140 204,92 222,66 C196,78 168,116 150,190 Z"/>
+                    </g>
+                    <g fill="url(#lp2)" stroke="#ffffff" stroke-width="0.9">
+                        <path d="M150,188 C132,148 108,104 96,72 C104,96 122,138 150,188 Z"/>
+                        <path d="M150,188 C168,148 192,104 204,72 C196,96 178,138 150,188 Z"/>
+                        <path d="M150,188 C142,140 134,84 140,48 C148,72 148,120 150,188 Z"/>
+                        <path d="M150,188 C158,140 166,84 160,48 C152,72 152,120 150,188 Z"/>
+                    </g>
+                    <g fill="url(#lp2)" stroke="#ffffff" stroke-width="0.6" opacity="0.9">
+                        <path d="M150,186 C138,150 122,112 118,86 C128,78 132,72 128,64 C138,86 148,132 150,186 Z"/>
+                        <path d="M150,186 C162,150 178,112 182,86 C172,78 168,72 172,64 C162,86 152,132 150,186 Z"/>
+                        <path d="M150,186 C146,144 142,96 146,66 C150,60 154,60 152,68 C154,98 152,140 150,186 Z"/>
+                    </g>
+                    <g stroke="#f0f9ff" stroke-width="0.4" opacity="0.65" fill="none">
+                        <path d="M150,184 C140,152 128,118 122,90"/>
+                        <path d="M150,184 C160,152 172,118 178,90"/>
+                    </g>
+                    <g stroke="#e0f2fe" stroke-width="0.5" opacity="0.7" fill="none">
+                        <path d="M150,185 C136,150 116,110 104,78"/>
+                        <path d="M150,185 C164,150 184,110 196,78"/>
+                        <path d="M150,185 C147,140 143,90 145,55"/>
+                    </g>
+                    <circle cx="150" cy="188" r="14" fill="url(#lglow)"/>
+                    <g stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.95">
+                        <path d="M150,185 C122,148 66,112 22,102"/>
+                        <path d="M150,185 C114,128 48,82 14,54"/>
+                        <path d="M150,185 C132,116 76,50 40,18"/>
+                        <path d="M150,185 C147,108 126,38 116,10"/>
+                        <path d="M150,185 C153,108 174,38 184,10"/>
+                        <path d="M150,185 C168,116 224,50 260,18"/>
+                        <path d="M150,185 C186,128 252,82 286,54"/>
+                        <path d="M150,185 C176,148 232,112 278,102"/>
+                    </g>
+                    <g stroke="#bfdbfe" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.6">
+                        <path d="M150,185 C128,152 82,124 46,116"/>
+                        <path d="M150,185 C158,152 218,124 254,116"/>
+                    </g>
+                    <g stroke="#93c5fd" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.5">
+                        <path d="M150,185 C118,138 58,96 18,74"/>
+                        <path d="M150,185 C182,138 242,96 282,74"/>
+                        <path d="M150,185 C140,102 108,54 96,26"/>
+                        <path d="M150,185 C160,102 192,54 204,26"/>
+                    </g>
+                    <g fill="#dbeafe" stroke="#ffffff" stroke-width="0.8">
+                        <ellipse cx="22" cy="102" rx="3.5" ry="1.8" transform="rotate(-20 22 102)"/>
+                        <ellipse cx="14" cy="54" rx="3.5" ry="1.8" transform="rotate(-30 14 54)"/>
+                        <ellipse cx="40" cy="18" rx="3.5" ry="1.8" transform="rotate(-40 40 18)"/>
+                        <ellipse cx="116" cy="10" rx="3.5" ry="1.8" transform="rotate(-10 116 10)"/>
+                        <ellipse cx="184" cy="10" rx="3.5" ry="1.8" transform="rotate(10 184 10)"/>
+                        <ellipse cx="260" cy="18" rx="3.5" ry="1.8" transform="rotate(40 260 18)"/>
+                        <ellipse cx="286" cy="54" rx="3.5" ry="1.8" transform="rotate(30 286 54)"/>
+                        <ellipse cx="278" cy="102" rx="3.5" ry="1.8" transform="rotate(20 278 102)"/>
+                    </g>
+                </symbol>
+                <linearGradient id="stemGradBand" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stop-color="#1e293b"/>
+                    <stop offset="100%" stop-color="#60a5fa"/>
+                </linearGradient>
+            </defs>
+ 
+            <path d="M60,460 Q56,412 60,363" stroke="url(#stemGradBand)" stroke-width="4.1" opacity="0.60"/>
+            <path d="M170,460 Q166,403 170,346" stroke="url(#stemGradBand)" stroke-width="5.3" opacity="0.65"/>
+            <path d="M300,460 Q296,413 300,366" stroke="url(#stemGradBand)" stroke-width="3.9" opacity="0.60"/>
+            <path d="M430,460 Q426,394 430,329" stroke="url(#stemGradBand)" stroke-width="6.5" opacity="0.85"/>
+            <path d="M600,460 Q596,406 600,352" stroke="url(#stemGradBand)" stroke-width="4.9" opacity="0.70"/>
+            <path d="M760,460 Q756,387 760,315" stroke="url(#stemGradBand)" stroke-width="7.5" opacity="1.00"/>
+            <path d="M900,460 Q896,409 900,357" stroke="url(#stemGradBand)" stroke-width="4.5" opacity="0.65"/>
+            <path d="M1040,460 Q1036,397 1040,335" stroke="url(#stemGradBand)" stroke-width="6.1" opacity="0.80"/>
+            <path d="M1190,460 Q1186,414 1190,369" stroke="url(#stemGradBand)" stroke-width="3.7" opacity="0.55"/>
+            <path d="M1320,460 Q1316,392 1320,323" stroke="url(#stemGradBand)" stroke-width="6.9" opacity="0.95"/>
+            <path d="M1470,460 Q1466,407 1470,355" stroke="url(#stemGradBand)" stroke-width="4.7" opacity="0.70"/>
+            <path d="M1580,460 Q1576,400 1580,340" stroke="url(#stemGradBand)" stroke-width="5.7" opacity="0.75"/>
+ 
+            <use href="#lilyFlower" x="-18" y="265" width="155" height="155" opacity="0.5"/>
+            <use href="#lilyFlower" x="69" y="218" width="202" height="202" opacity="0.55"/>
+            <use href="#lilyFlower" x="226" y="273" width="147" height="147" opacity="0.5"/>
+            <use href="#lilyFlower" x="306" y="172" width="248" height="248" opacity="0.75"/>
+            <use href="#lilyFlower" x="507" y="234" width="186" height="186" opacity="0.6"/>
+            <use href="#lilyFlower" x="617" y="133" width="287" height="287" opacity="0.9"/>
+            <use href="#lilyFlower" x="815" y="250" width="170" height="170" opacity="0.55"/>
+            <use href="#lilyFlower" x="924" y="188" width="232" height="232" opacity="0.7"/>
+            <use href="#lilyFlower" x="1120" y="280" width="140" height="140" opacity="0.45"/>
+            <use href="#lilyFlower" x="1188" y="156" width="264" height="264" opacity="0.85"/>
+            <use href="#lilyFlower" x="1380" y="242" width="178" height="178" opacity="0.6"/>
+            <use href="#lilyFlower" x="1472" y="203" width="217" height="217" opacity="0.65"/>
+        </svg>
+    </div>
+ 
+    <!-- ENCABEZADO -->
+    <div class="header-central">
+        <span class="badge-anime">💮 Léelo por favor 💮</span>
+        <h1>Holaa Viri</h1>
+    </div>
+ 
+    <div class="scroll-indicator-card">
+        <span class="cursiva" style="margin:0; font-size: 1.6rem; color: #93c5fd;">Desliza hacia abajo ✨</span>
+    </div>
+ 
+    <!-- LÍNEA DE TIEMPO -->
+    <div class="timeline-container">
+ 
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="card">
+                <span class="badge-anime">EL MOTIVO</span>
+                <p>Desde hace tiempo quiero decirte algo.<br><br>La verdad, tengo tiempo queriendo volver a hablar contigo, y ese día que salimos estaba muy emocionado. La he pasado muy bien platicando contigo.</p>
+            </div>
+        </div>
+ 
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="card">
+                <span class="badge-anime">SINCERIDAD</span>
+                <p>Siendo sincero, creo que ya te puedes imaginar por qué he buscado tanto sacar plática o invitarte a salir jaja...</p>
+                <span class="cursiva">Quiero seguir saliendo contigo.</span>
+            </div>
+        </div>
+ 
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="card">
+                <span class="badge-anime">LO QUE PRETENDO</span>
+                <p>No te lo digo para hacerte sentir presionada ni para que tengas que responderme algo en este momento.<br><br>Simplemente creo que es mejor que sepas cuáles son mis intenciones contigo, y que no pienses que lo hago solo por casualidad.</p>
+            </div>
+        </div>
+ 
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="card">
+                <span class="badge-anime">ME GUSTARÍA...</span>
+                <p>Me gustaría seguir saliendo contigo, conocerte mucho más y ver qué puede surgir entre nosotros.<br><br>Sé que vienes de una relación reciente, y entiendo perfectamente que quizá necesites tiempo o que tengas ciertas dudas. Respeto eso.</p>
+            </div>
+        </div>
+ 
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="card">
+                <span class="badge-anime">SIN PRISA</span>
+                <p>Si tú también estás dispuesta, me gustaría intentarlo poco a poco.<br><br>Sin apresurarnos ni ponerle presión a nada, simplemente conocernos desde otra perspectiva y ver hasta dónde puede llegar esto y cómo nos sentimos.</p>
+            </div>
+        </div>
+ 
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="card">
+                <span class="badge-anime">YO PUEDO ESPERAR</span>
+                <p>No espero que me des una respuesta ahorita, ni quiero que sientas que tienes que hacerlo. Solo quería ser sincero contigo, porque creo que mereces saber lo que siento y lo que me gustaría intentar contigo. ❤️</p>
+            </div>
+        </div>
+ 
+        <!-- BOTÓN CON SU PROPIO PUNTO CENTRADO EN LA LÍNEA -->
+        <div class="btn-container-timeline">
+            <div class="timeline-dot"></div>
+            <a href="https://wa.me/7774400768?text=Hola,%20ya%20le%C3%AD%20tu%20mensaje...%20%E2%9C%A8" class="btn-whatsapp" target="_blank">
+                <span>Ir al chat</span> 💬
+            </a>
+        </div>
+ 
+    </div>
+ 
+    <script>
+        function togglePlay() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('playBtn');
+            if (music.paused) {
+                music.play().catch(() => {
+                    alert('No se pudo cargar la música. Revisa el link del archivo de audio (Google Drive puede estar bloqueando la reproducción directa).');
+                });
+                btn.textContent = '❚❚';
+            } else {
+                music.pause();
+                btn.textContent = '▶';
+            }
+        }
+ 
+        const petalContainer = document.getElementById('petals-container');
+        const numberOfPetals = 60;
+ 
+        for (let i = 0; i < numberOfPetals; i++) {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+ 
+            const size = Math.random() * 12 + 10;
+            const leftPos = Math.random() * 100;
+            const animDuration = Math.random() * 10 + 8;
+            const animDelay = Math.random() * 10;
+ 
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size}px`;
+            petal.style.left = `${leftPos}%`;
+            petal.style.animationDuration = `${animDuration}s`;
+            petal.style.animationDelay = `${animDelay}s`;
+ 
+            petalContainer.appendChild(petal);
+        }
+    </script>
+</body>
+</html>
+ 
