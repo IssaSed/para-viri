@@ -178,6 +178,74 @@
             letter-spacing: 0.5px;
         }
 
+        /* Aviso apuntando al botón de música */
+        @keyframes pointBounce {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(0, -6px); }
+        }
+
+        .music-hint {
+            position: fixed;
+            top: 66px;
+            right: 20px;
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            pointer-events: none;
+            animation: pointBounce 1.6s ease-in-out infinite;
+        }
+
+        .music-hint .arrow {
+            font-size: 1.2rem;
+            line-height: 1;
+            color: #93c5fd;
+        }
+
+        .music-hint span {
+            font-size: 0.75rem;
+            color: #93c5fd;
+            font-weight: 500;
+            white-space: nowrap;
+            background: rgba(15, 23, 42, 0.75);
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(147, 197, 253, 0.3);
+        }
+
+        @media (max-width: 850px) {
+            .music-hint {
+                top: 56px;
+                right: 10px;
+            }
+            .music-hint span {
+                font-size: 0.65rem;
+                padding: 4px 9px;
+            }
+        }
+
+        /* Aviso de mejor experiencia en computadora / horizontal */
+        .view-hint {
+            max-width: 420px;
+            margin: 90px auto 0 auto;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(147, 197, 253, 0.25);
+            border-radius: 16px;
+            padding: 12px 18px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+            backdrop-filter: blur(6px);
+        }
+
+        .view-hint span {
+            font-size: 0.8rem;
+            color: #93c5fd;
+            letter-spacing: 0.3px;
+            line-height: 1.4;
+        }
+
         .petals-container {
             position: fixed;
             top: 0;
@@ -454,8 +522,14 @@
     <!-- REPRODUCTOR -->
     <div class="music-player">
         <button id="playBtn" onclick="togglePlay()">▶</button>
-        <span class="music-info">Soñé 🎵</span>
-        <audio id="bgMusic" loop preload="auto" src="sone.mp3"></audio>
+        <span class="music-info">Reproducir</span>
+        <audio id="bgMusic" loop preload="auto" src="cordelia.mp3"></audio>
+    </div>
+
+    <!-- AVISO PARA PRESIONAR LA MÚSICA -->
+    <div class="music-hint" id="musicHint">
+        <span class="arrow">↑</span>
+        <span>Presiona para la música</span>
     </div>
 
     <div class="petals-container" id="petals-container"></div>
@@ -476,6 +550,10 @@
 
         <div class="scroll-indicator-card">
             <span class="cursiva" style="margin:0; font-size: 1.6rem; color: #93c5fd;">Desliza hacia abajo ✨</span>
+        </div>
+
+        <div class="view-hint">
+            <span> Se ve mejor en computadora, o si estás en el teléfono, gíralo en horizontal </span>
         </div>
     </div>
 
@@ -593,14 +671,14 @@
         </svg>
     </div>
 
-    <!-- LÍNEA DE TIEMPO -->
+<!-- LÍNEA DE TIEMPO -->
     <div class="timeline-container">
 
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="card">
                 <span class="badge-anime">EL MOTIVO</span>
-                <p>Desde hace tiempo quiero decirte algo.<br><br>La verdad, tengo tiempo queriendo volver a hablar contigo, y ese día que salimos estaba muy emocionado. La he pasado muy bien platicando contigo.</p>
+                <p>Desde hace tiempo quiero decirte algo.<br><br>La verdad, tenía muchas ganas de volver a hablar contigo. Dentro de lo poco, he disfrutado las pláticas que hemos tenido. La he pasado bien.</p>
             </div>
         </div>
 
@@ -608,8 +686,7 @@
             <div class="timeline-dot"></div>
             <div class="card">
                 <span class="badge-anime">SINCERIDAD</span>
-                <p>Siendo sincero, creo que ya te puedes imaginar por qué he buscado tanto sacar plática o invitarte a salir jaja...</p>
-                <span class="cursiva">Quiero seguir saliendo contigo.</span>
+                <p>Siendo sincero, no quería guardarme esto ni hacer como si nada. La verdad es que me siento atraído por ti y me pareces una persona muy especial.</p>
             </div>
         </div>
 
@@ -617,7 +694,7 @@
             <div class="timeline-dot"></div>
             <div class="card">
                 <span class="badge-anime">LO QUE PRETENDO</span>
-                <p>No te lo digo para hacerte sentir presionada ni para que tengas que responderme algo en este momento.<br><br>Simplemente creo que es mejor que sepas cuáles son mis intenciones contigo, y que no pienses que lo hago solo por casualidad.</p>
+                <p>No te lo digo para hacerte sentir presionada ni para que tengas que responderme algo en este momento.<br><br>No busco respuesta inmediata ni ponerte en un compromiso. Solo quería ser honesto contigo sobre lo que siento, en lugar de actuar con indirectas.</p>
             </div>
         </div>
 
@@ -625,7 +702,7 @@
             <div class="timeline-dot"></div>
             <div class="card">
                 <span class="badge-anime">ME GUSTARÍA...</span>
-                <p>Me gustaría seguir saliendo contigo, conocerte mucho más y ver qué puede surgir entre nosotros.<br><br>Sé que vienes de una relación reciente, y entiendo perfectamente que quizá necesites tiempo o que tengas ciertas dudas. Respeto eso.</p>
+                <p>Me gustaría seguir saliendo contigo, conocerte mucho más y ver qué puede surgir entre nosotros.<br><br>Sé que cada quien lleva sus propios tiempos y procesos, y respeto totalmente eso. Mi intención nunca será presionar tu espacio.</p>
             </div>
         </div>
 
@@ -640,15 +717,15 @@
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="card">
-                <span class="badge-anime">YO PUEDO ESPERAR</span>
-                <p>No espero que me des una respuesta ahorita, ni quiero que sientas que tienes que hacerlo. Solo quería ser sincero contigo, porque creo que mereces saber lo que siento y lo que me gustaría intentar contigo. ❤️</p>
+                <span class="badge-anime">TRANQUILIDAD</span>
+                <p>No espero que me des una respuesta ahorita, ni quiero que sientas que tienes que hacerlo. Solo quería que lo supieras de primera mano. Me alegra mucho coincidir contigo y quería ser transparente con lo que siento. ✨</p>
             </div>
         </div>
 
         <!-- BOTÓN CON SU PROPIO PUNTO CENTRADO EN LA LÍNEA -->
         <div class="btn-container-timeline">
             <div class="timeline-dot"></div>
-            <a href="https://wa.me/7774400768?text=Hola,%20ya%20le%C3%AD%20tu%20mensaje...%20%E2%9C%A8" class="btn-whatsapp" target="_blank">
+            <a href="https://wa.me/7774400768?text=Hola,%20ya%20lo%20le%C3%AD%20%E2%9C%A8" class="btn-whatsapp" target="_blank">
                 <span>Ir al chat</span> 💬
             </a>
         </div>
@@ -661,13 +738,17 @@
             const btn = document.getElementById('playBtn');
             if (music.paused) {
                 music.play().catch(() => {
-                    alert('No se pudo cargar la música. Revisa que sone.mp3 esté cargado en GitHub.');
+                    alert('No se pudo cargar la música. Revisa que cordelia.mp3 esté cargado en GitHub.');
                 });
                 btn.textContent = '❚❚';
             } else {
                 music.pause();
                 btn.textContent = '▶';
             }
+
+            // El aviso desaparece en cuanto se presiona el botón
+            const hint = document.getElementById('musicHint');
+            if (hint) hint.style.display = 'none';
         }
 
         // Generador de pétalos
